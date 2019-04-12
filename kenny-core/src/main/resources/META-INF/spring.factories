@@ -1,0 +1,6 @@
+# AutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.kenny.movie.core.base.controller.GlobalController,\
+com.kenny.movie.core.config.DefaultFastjsonConfig,\
+com.kenny.movie.core.config.DefaultProperties,\
+com.kenny.movie.core.config.DefaultWebConfig

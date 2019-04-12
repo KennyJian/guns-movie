@@ -1,0 +1,27 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="FilmTInfoForm">
+
+            <input id="uuid" value="${item.uuid}" type="hidden"/>
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                    <#input id="directorName" name="导演名" value="${item.directorName}" underline="true"/>
+                </div>
+                <div class="col-sm-6 b-r">
+                    <#input id="directorImgUrl" name="导演图片地址" value="${item.directorImgUrl}" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="FilmTInfoDlg.editSubmitDirectorInfo()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="FilmTInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/movie/admin/manage/filmT_info.js"></script>
+@}
