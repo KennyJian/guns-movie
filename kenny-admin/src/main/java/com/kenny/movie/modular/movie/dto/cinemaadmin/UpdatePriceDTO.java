@@ -1,4 +1,12 @@
 package com.kenny.movie.modular.movie.dto.cinemaadmin;
 
-public class UpdatePriceDTO {
+import lombok.Data;
+
+import java.io.Serializable;
+
+@Data
+public class UpdatePriceDTO implements Serializable {
+
+    private String uuid;
+    private Integer price;
 }

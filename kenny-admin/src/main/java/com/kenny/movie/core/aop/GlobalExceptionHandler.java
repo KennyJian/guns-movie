@@ -8,6 +8,10 @@ import com.kenny.movie.core.support.HttpKit;
 import com.kenny.movie.core.base.tips.ErrorTip;
 import com.kenny.movie.core.log.LogManager;
 import com.kenny.movie.core.shiro.ShiroKit;
+import com.kenny.movie.modular.movie.exception.AddFieldException;
+import com.kenny.movie.modular.movie.exception.DeleteFieldException;
+import com.kenny.movie.modular.movie.exception.FieldTimeException;
+import com.kenny.movie.modular.movie.exception.SetPriceException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -106,6 +110,42 @@ public class GlobalExceptionHandler {
         return new ErrorTip(BizExceptionEnum.NO_PERMITION.getCode(), BizExceptionEnum.NO_PERMITION.getMessage());
     }
 
+    @ExceptionHandler(AddFieldException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorTip applyError(AddFieldException e){
+        HttpKit.getRequest().setAttribute("tip", "该影厅已被占用");
+        log.error("该影厅已被占用!", e);
+        return new ErrorTip(BizExceptionEnum.CHOOSE_DATA_OCCUPIED.getCode(), BizExceptionEnum.CHOOSE_DATA_OCCUPIED.getMessage());
+    }
+
+    @ExceptionHandler(SetPriceException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorTip applyError(SetPriceException e){
+        HttpKit.getRequest().setAttribute("tip", "不得低于影厅最低票价");
+        log.error("不得低于影厅最低票价!", e);
+        return new ErrorTip(BizExceptionEnum.SET_PRICE.getCode(), BizExceptionEnum.SET_PRICE.getMessage());
+    }
+
+
+    @ExceptionHandler(DeleteFieldException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorTip applyError(DeleteFieldException e){
+        HttpKit.getRequest().setAttribute("tip", "该场次已有人购票,不得删除!");
+        log.error("该场次已有人购票,不得删除!", e);
+        return new ErrorTip(BizExceptionEnum.DELETE_FIELD_ERROR.getCode(), BizExceptionEnum.DELETE_FIELD_ERROR.getMessage());
+    }
+
+    @ExceptionHandler(FieldTimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorTip applyError(FieldTimeException e){
+        HttpKit.getRequest().setAttribute("tip", "排场时间必须提前一天");
+        log.error("排场时间必须提前一天!", e);
+        return new ErrorTip(BizExceptionEnum.FIELR_TIME_ERROR.getCode(), BizExceptionEnum.FIELR_TIME_ERROR.getMessage());
+    }
     /**
      * 拦截未知的运行时异常
      */

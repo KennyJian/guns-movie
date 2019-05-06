@@ -1,4 +1,4 @@
 package com.kenny.movie.modular.movie.exception;
 
-public class AddFieldException {
+public class AddFieldException extends RuntimeException {
 }

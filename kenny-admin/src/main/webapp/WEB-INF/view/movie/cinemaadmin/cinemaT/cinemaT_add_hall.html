@@ -3,26 +3,34 @@
     <div class="ibox-content">
         <div class="form-horizontal" id="CinemaTInfoForm">
 
-            <input id="id" value="${item.id}" type="hidden"/>
+            <input id="uuid" value="${item.uuid}" type="hidden"/>
             <div class="row">
                 <div class="col-sm-6 b-r">
-                            <#input id="cinemaName" name="影院名称" value="${item.cinemaName}" underline="true"/>
-                            <#input id="cinemaPhone" name="影院电话" value="${item.cinemaPhone}" underline="true"/>
-                            <#input id="brandId" name="品牌编号" value="${item.brandId}" underline="true"/>
-                            <#input id="areaId" name="地域编号" value="${item.areaId}" />
+                            <#input id="oldHall" name="已有影厅类型" value="${item.oldHall}" underline="true" readonly="readonly"/>
                 </div>
 
                 <div class="col-sm-6">
-                            <#input id="hallIds" name="包含的影厅类型,以#作为分割" value="${item.hallIds}" underline="true"/>
-                            <#input id="imgAddress" name="影院图片地址" value="${item.imgAddress}" underline="true"/>
-                            <#input id="cinemaAddress" name="影院地址" value="${item.cinemaAddress}" underline="true"/>
-                            <#input id="minimumPrice" name="最低票价" value="${item.minimumPrice}" />
+                    <#select id="hallId" name="新增影厅类型">
+                    <option value="1">IMAX厅</option>
+                    <option value="2">CGS中国巨幕厅</option>
+                    <option value="3">杜比全景声厅</option>
+                    <option value="4">Dolby Cinema厅</option>
+                    <option value="5">RealD厅</option>
+                    <option value="6">RealD 6FL厅</option>
+                    <option value="7">LUXE巨幕厅</option>
+                    <option value="8">4DX厅</option>
+                    <option value="9">DTS:X 临境音厅</option>
+                    <option value="10">儿童厅</option>
+                    <option value="11">4K厅</option>
+                    <option value="12">4D厅</option>
+                    <option value="13">巨幕厅</option>
+                </#select>
                 </div>
             </div>
 
             <div class="row btn-group-m-t">
                 <div class="col-sm-10">
-                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="CinemaTInfoDlg.editSubmit()"/>
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="CinemaTInfoDlg.editSubmitAddHall()"/>
                     <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="CinemaTInfoDlg.close()"/>
                 </div>
             </div>

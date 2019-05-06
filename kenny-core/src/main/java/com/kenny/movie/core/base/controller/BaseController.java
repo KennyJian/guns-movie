@@ -1,6 +1,7 @@
 package com.kenny.movie.core.base.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.kenny.movie.core.base.tips.SearchMoneyTip;
 import com.kenny.movie.core.base.tips.SuccessTip;
 import com.kenny.movie.core.page.PageInfoBT;
 import com.kenny.movie.core.support.HttpKit;

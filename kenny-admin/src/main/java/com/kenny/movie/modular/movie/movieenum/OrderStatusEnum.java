@@ -1,24 +1,23 @@
 package com.kenny.movie.modular.movie.movieenum;
 
-public enum FilmTypeEnum {
+public enum OrderStatusEnum {
 
-    ZERO(0,"2D"),
-    ONE(1,"3D"),
-    TWO(2,"3D-IMAX"),
-    THREE(3,"无");
+    ZERO(0,"待支付"),
+    ONE(1,"已支付"),
+    TWO(2,"已关闭");
 
     int code;
     String msg;
 
-    FilmTypeEnum(int code, String msg) {
+    OrderStatusEnum(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
     public static String getMsg(int code){
-        for(FilmTypeEnum filmTypeEnum : FilmTypeEnum.values()){
-            if(filmTypeEnum.getCode()==code){
-                return filmTypeEnum.getMsg();
+        for(OrderStatusEnum orderStatusEnum : OrderStatusEnum.values()){
+            if(orderStatusEnum.getCode()==code){
+                return orderStatusEnum.getMsg();
             }
         }
         return null;

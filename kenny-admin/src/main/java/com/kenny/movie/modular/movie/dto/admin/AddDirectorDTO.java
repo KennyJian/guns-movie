@@ -5,9 +5,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class AddActorsDTO implements Serializable {
+public class AddDirectorDTO implements Serializable {
 
+    private String uuid;
     private String directorName;
     private String directorImgUrl;
-    
+
 }

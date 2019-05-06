@@ -1,4 +1,4 @@
-package com.kenny.movie.modular.movie.controller;
+package com.kenny.movie.modular.movie.controller.admin;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.kenny.movie.core.base.controller.BaseController;
@@ -8,8 +8,13 @@ import com.kenny.movie.core.exception.GunsException;
 import com.kenny.movie.core.log.LogObjectHolder;
 import com.kenny.movie.core.shiro.ShiroKit;
 import com.kenny.movie.core.util.ToolUtil;
-import com.kenny.movie.modular.movie.service.IFilmTService;
+import com.kenny.movie.modular.movie.dto.admin.*;
+import com.kenny.movie.modular.movie.service.admin.IFilmTService;
+import com.kenny.movie.modular.system.dao.FilmInfoTMapper;
+import com.kenny.movie.modular.system.model.ActorT;
+import com.kenny.movie.modular.system.model.FilmInfoT;
 import com.kenny.movie.modular.system.model.FilmT;
+import com.kenny.movie.modular.system.model.HallFilmInfoT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +33,10 @@ import javax.validation.Valid;
  * @Date 2019-02-05 12:27:27
  */
 @Controller
-@RequestMapping("/filmT")
+@RequestMapping("/admin/manage")
 public class FilmTController extends BaseController {
 
-    private String PREFIX = "/movie/filmT/";
+    private String PREFIX = "/movie/admin/manage/";
 
     @Autowired
     private IFilmTService filmTService;
@@ -65,69 +70,98 @@ public class FilmTController extends BaseController {
         return PREFIX + "filmT_edit.html";
     }
 
+
+    /**
+     * 跳转到修改电影故事简介
+     */
+    @RequestMapping("/updateStory/{filmTId}")
+    public String filmTUpdateStory(@PathVariable String filmTId, Model model) {
+        FilmInfoT filmInfoT = filmTService.getFilmInfoTByFilmId(filmTId);
+        UpdateStoryDTO updateStoryDTO=new UpdateStoryDTO();
+        updateStoryDTO.setUuid(filmTId);
+        updateStoryDTO.setStory(filmInfoT.getBiography());
+        model.addAttribute("item",updateStoryDTO);
+        LogObjectHolder.me().set(updateStoryDTO);
+        return PREFIX + "filmT_edit_story.html";
+    }
+
+    /**
+     * 跳转到修改电影标签
+     */
+    @RequestMapping("/updateCat/{filmTId}")
+    public String filmTUpdateCat(@PathVariable String filmTId, Model model) {
+        HallFilmInfoT hallFilmInfoT = filmTService.getHallFilmInfoTByFilmId(filmTId);
+        UpdateCatDTO updateCatDTO=new UpdateCatDTO();
+        updateCatDTO.setUuid(filmTId);
+        updateCatDTO.setFilmOldCats(hallFilmInfoT.getFilmCats());
+        model.addAttribute("item",updateCatDTO);
+        LogObjectHolder.me().set(updateCatDTO);
+        return PREFIX + "filmT_edit_cats.html";
+    }
+
+
+    /**
+     * 跳转到新增电影图片页面
+     */
+    @RequestMapping("/addImg/{filmTId}")
+    public String filmTAddImg(@PathVariable String filmTId, Model model) {
+        AddImgDTO addImgDTO=new AddImgDTO();
+        addImgDTO.setUuid(filmTId);
+        FilmInfoT filmInfoT=filmTService.getFilmInfoTByFilmId(filmTId);
+        if (ToolUtil.isNotEmpty(filmInfoT.getFilmImgs())) {
+            String[] imgs = filmInfoT.getFilmImgs().split(",");
+            if (imgs.length >= 5) {
+                addImgDTO.setImg01(imgs[0]);
+                addImgDTO.setImg02(imgs[1]);
+                addImgDTO.setImg03(imgs[2]);
+                addImgDTO.setImg04(imgs[3]);
+                addImgDTO.setImg05(imgs[4]);
+            }
+        }
+        model.addAttribute("item",addImgDTO);
+        return PREFIX + "filmT_edit_imgs.html";
+    }
+
+    /**
+     * 跳转到修改电影标签
+     */
+    @RequestMapping("/updateDirector/{filmTId}")
+    public String filmTUpdateDirector(@PathVariable String filmTId, Model model) {
+        AddDirectorDTO addDirectorDTO=new AddDirectorDTO();
+        addDirectorDTO.setUuid(filmTId);
+        FilmInfoT filmInfoT=filmTService.getFilmInfoTByFilmId(filmTId);
+        if (ToolUtil.isNotEmpty(filmInfoT.getDirectorId())) {
+            ActorT actorT = filmTService.getActorByActorId(filmInfoT.getDirectorId());
+            addDirectorDTO.setDirectorName(actorT.getActorName());
+            addDirectorDTO.setDirectorImgUrl(actorT.getActorImg());
+        }
+        model.addAttribute("item",addDirectorDTO);
+        LogObjectHolder.me().set(addDirectorDTO);
+        return PREFIX + "filmT_edit_directors.html";
+    }
+
+    /**
+     * 跳转到添加演员标签
+     */
+    @RequestMapping("/addActor/{filmTId}")
+    public String filmTAddActor(@PathVariable String filmTId, Model model) {
+        model.addAttribute("item",filmTId);
+        return PREFIX + "filmT_add_actors.html";
+    }
+
     /**
      * 获取影院后台列表
      */
     @Permission
     @RequestMapping(value = "/list")
     @ResponseBody
-    public Object list(    @RequestParam(required = false) String uuid,
-    @RequestParam(required = false) String filmName,
+    public Object list(    @RequestParam(required = false) String filmName,
     @RequestParam(required = false) String filmType,
-    @RequestParam(required = false) String imgAddress,
-    @RequestParam(required = false) String filmScore,
-    @RequestParam(required = false) String filmPresalenum,
-    @RequestParam(required = false) String filmBoxOffice,
     @RequestParam(required = false) String filmSource,
-    @RequestParam(required = false) String filmCats,
     @RequestParam(required = false) String filmArea,
-    @RequestParam(required = false) String filmDate,
-    @RequestParam(required = false) String filmTime,
-    @RequestParam(required = false) String filmStatus){
-        EntityWrapper<FilmT> entityWrapper=new EntityWrapper<>();
-        if(ToolUtil.isNotEmpty(uuid)){
-            entityWrapper.like("uuid",uuid);
-        }
-        if(ToolUtil.isNotEmpty(filmName)){
-            entityWrapper.like("filmName",filmName);
-        }
-        if(ToolUtil.isNotEmpty(filmType)){
-            entityWrapper.like("filmType",filmType);
-        }
-        if(ToolUtil.isNotEmpty(imgAddress)){
-            entityWrapper.like("imgAddress",imgAddress);
-        }
-        if(ToolUtil.isNotEmpty(filmScore)){
-            entityWrapper.like("filmScore",filmScore);
-        }
-        if(ToolUtil.isNotEmpty(filmPresalenum)){
-            entityWrapper.like("filmPresalenum",filmPresalenum);
-        }
-        if(ToolUtil.isNotEmpty(filmBoxOffice)){
-            entityWrapper.like("filmBoxOffice",filmBoxOffice);
-        }
-        if(ToolUtil.isNotEmpty(filmSource)){
-            entityWrapper.like("filmSource",filmSource);
-        }
-        if(ToolUtil.isNotEmpty(filmCats)){
-            entityWrapper.like("filmCats",filmCats);
-        }
-        if(ToolUtil.isNotEmpty(filmArea)){
-            entityWrapper.like("filmArea",filmArea);
-        }
-        if(ToolUtil.isNotEmpty(filmDate)){
-            entityWrapper.like("filmDate",filmDate);
-        }
-        if(ToolUtil.isNotEmpty(filmTime)){
-            entityWrapper.like("filmTime",filmTime);
-        }
-        if(ToolUtil.isNotEmpty(filmStatus)){
-            entityWrapper.like("filmStatus",filmStatus);
-        }
-        if (!ShiroKit.isAdmin()){
-            entityWrapper.in("deptid",ShiroKit.getDeptDataScope());
-        }
-        return filmTService.selectList(entityWrapper);
+    @RequestParam(required = false) String filmDate
+    ){
+        return filmTService.findAllFilmList(filmName,filmType,filmSource,filmArea,filmDate);
     }
 
     /**
@@ -136,11 +170,11 @@ public class FilmTController extends BaseController {
     @Permission
     @RequestMapping(value = "/add")
     @ResponseBody
-    public Object add(@Valid FilmT filmT, BindingResult result) {
+    public Object add(@Valid AdminShowDTO adminShowDTO, BindingResult result) {
         if (result.hasErrors()) {
             throw new GunsException(BizExceptionEnum.REQUEST_NULL);
         }
-        filmTService.insert(filmT);
+        filmTService.insertFilm(adminShowDTO);
         return SUCCESS_TIP;
     }
 
@@ -151,8 +185,10 @@ public class FilmTController extends BaseController {
     @RequestMapping(value = "/delete")
     @ResponseBody
     public Object delete(@RequestParam String filmTId) {
-        Long idByInt= Long.parseLong(filmTId);
-        filmTService.deleteById(idByInt);
+        Integer idByInt= Integer.parseInt(filmTId);
+        System.out.println("选中删除的id为:"+idByInt);
+        //不想真的删 暂时注释
+//        filmTService.deleteFilm(idByInt);
         return SUCCESS_TIP;
     }
 
@@ -178,5 +214,77 @@ public class FilmTController extends BaseController {
     public Object detail(@PathVariable("filmTId") String filmTId) {
         Long idByInt= Long.parseLong(filmTId);
         return filmTService.selectById(idByInt);
+    }
+
+    /**
+     * 修改电影故事简介
+     */
+    @Permission
+    @RequestMapping(value = "/updateStory")
+    @ResponseBody
+    public Object updateStory(@Valid UpdateStoryDTO updateStoryDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new GunsException(BizExceptionEnum.REQUEST_NULL);
+        }
+        filmTService.updateStory(updateStoryDTO);
+        return SUCCESS_TIP;
+    }
+
+
+    /**
+     * 修改影院后台
+     */
+    @Permission
+    @RequestMapping(value = "/updateCat")
+    @ResponseBody
+    public Object updateCat(@Valid UpdateCatDTO updateCatDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new GunsException(BizExceptionEnum.REQUEST_NULL);
+        }
+        filmTService.updateCat(updateCatDTO);
+        return SUCCESS_TIP;
+    }
+
+
+    /**
+     * 修改影院后台
+     */
+    @Permission
+    @RequestMapping(value = "/addFilmImg")
+    @ResponseBody
+    public Object addFilmImg(@Valid AddImgDTO addImgDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new GunsException(BizExceptionEnum.REQUEST_NULL);
+        }
+        filmTService.addImg(addImgDTO);
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * 修改电影导演
+     */
+    @Permission
+    @RequestMapping(value = "/addFilmDirector")
+    @ResponseBody
+    public Object addFilmDirector(@Valid AddDirectorDTO addDirectorDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new GunsException(BizExceptionEnum.REQUEST_NULL);
+        }
+        filmTService.addDirector(addDirectorDTO);
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * 修改电影导演
+     */
+    @Permission
+    @RequestMapping(value = "/addFilmActor")
+    @ResponseBody
+    public Object addFilmActor(@Valid AddActorDTO addActorDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new GunsException(BizExceptionEnum.REQUEST_NULL);
+        }
+        filmTService.addActor(addActorDTO);
+        return SUCCESS_TIP;
     }
 }

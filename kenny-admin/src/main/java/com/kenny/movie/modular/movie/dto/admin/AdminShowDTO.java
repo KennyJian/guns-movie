@@ -1,11 +1,12 @@
-package com.kenny.movie.modular.movie.dto;
+package com.kenny.movie.modular.movie.dto.admin;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class AdminShowDTO {
+public class AdminShowDTO implements Serializable {
 
     //cinema_hall_film_info_t
     private Integer uuid;

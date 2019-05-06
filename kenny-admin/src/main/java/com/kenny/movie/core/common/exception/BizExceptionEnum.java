@@ -71,31 +71,17 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
      */
     AUTH_REQUEST_ERROR(400, "账号密码错误"),
 
-    /**
-     * 申请实验室异常
-     */
-    EQUIPMENT_NOT_ENOUGH(500,"实验室设备不足"),
-
-
-    /**
-     * 申请结束时间不能小于开始时间
-     */
-    CHOOSE_DARA_ERROR(500,"申请结束时间不能小于开始时间"),
-
 
     /**
      * 该时间段已被占用
      */
-    CHOOSE_DARA_OCCUPIED(500,"该时间段已被占用"),
+    CHOOSE_DATA_OCCUPIED(500,"该影厅已被占用"),
 
+    SET_PRICE(500,"不得低于影厅最低票价"),
 
-    STUDENT_REPEAT_APPLY(500,"学生重复申请选课"),
+    FIELR_TIME_ERROR(500,"排场时间必须提前一天"),
 
-    ATTEDN_MAX(500,"学生签到次数已达课程数"),
-
-    GRADE_NOT_ACHIEVE(500,"未达到评分条件"),
-
-    PASSWORD_ERROR(500,"密码错误");
+    DELETE_FIELD_ERROR(500,"该场次已有人购票,不得删除!");
 
     BizExceptionEnum(int code, String message) {
         this.code = code;

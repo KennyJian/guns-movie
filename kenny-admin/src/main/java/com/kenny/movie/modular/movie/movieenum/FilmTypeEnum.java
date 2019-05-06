@@ -1,22 +1,24 @@
 package com.kenny.movie.modular.movie.movieenum;
 
-public enum ElectrifyEnum {
+public enum FilmTypeEnum {
 
-    OPEN(1,"通电"),
-    CLOSE(2,"未通电");
+    ZERO(0,"2D"),
+    ONE(1,"3D"),
+    TWO(2,"3D-IMAX"),
+    THREE(3,"无");
 
     int code;
     String msg;
 
-    ElectrifyEnum(int code, String msg) {
+    FilmTypeEnum(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
     public static String getMsg(int code){
-        for(ElectrifyEnum electrifyEnum:ElectrifyEnum.values()){
-            if(electrifyEnum.getCode()==code){
-                return electrifyEnum.getMsg();
+        for(FilmTypeEnum filmTypeEnum : FilmTypeEnum.values()){
+            if(filmTypeEnum.getCode()==code){
+                return filmTypeEnum.getMsg();
             }
         }
         return null;

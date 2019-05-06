@@ -5,8 +5,9 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class CinemaAddHall implements Serializable {
+public class CinemaAddHallDTO implements Serializable {
 
-    private String id;
+    private String uuid;
+    private String oldHall;
     private String hallId;
 }
