@@ -1,0 +1,93 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="FilmTInfoForm">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="filmName" name="影片名称" underline="true"/>
+                            <#input id="filmEnName" name="影片英文名称" underline="true"/>
+                            <#input id="filmLength" name="影片长度" underline="true"/>
+                            <#input id="filmLanguage" name="影片语言" underline="true"/>
+                </div>
+                <div class="col-sm-6">
+                    <#select id="filmType" name="影片类型" underline="true">
+                        <option value="0">2D</option>
+                        <option value="1">3D</option>
+                        <option value="2">3D-IMAX</option>
+                    </#select>
+                    <#select id="filmSource" name="影片片源" underline="true">
+                        <option value="1">大陆</option>
+                        <option value="2">美国</option>
+                        <option value="3">韩国</option>
+                        <option value="4">日本</option>
+                        <option value="5">中国香港</option>
+                        <option value="6">中国台湾</option>
+                        <option value="7">印度</option>
+                        <option value="8">法国</option>
+                        <option value="9">英国</option>
+                        <option value="10">俄罗斯</option>
+                        <option value="11">意大利</option>
+                        <option value="12">西班牙</option>
+                        <option value="13">德国</option>
+                        <option value="14">波兰</option>
+                        <option value="15">澳大利亚</option>
+                        <option value="16">伊朗</option>
+                    </#select>
+                    <#select id="filmArea" name="影片区域" underline="true">
+                        <option value="1">大陆</option>
+                        <option value="2">美国</option>
+                        <option value="3">韩国</option>
+                        <option value="4">日本</option>
+                        <option value="5">中国香港</option>
+                        <option value="6">中国台湾</option>
+                        <option value="7">印度</option>
+                        <option value="8">法国</option>
+                        <option value="9">英国</option>
+                        <option value="10">俄罗斯</option>
+                        <option value="11">意大利</option>
+                        <option value="12">西班牙</option>
+                        <option value="13">德国</option>
+                        <option value="14">波兰</option>
+                        <option value="15">澳大利亚</option>
+                        <option value="16">伊朗</option>
+                    </#select>
+                    <#select id="filmDate" name="影片上映年代" underline="true">
+                        <option value="14">2019</option>
+                        <option value="1">更早</option>
+                        <option value="2">70年代</option>
+                        <option value="3">80年代</option>
+                        <option value="4">90年代</option>
+                        <option value="5">2000-2010</option>
+                        <option value="6">2011</option>
+                        <option value="7">2012</option>
+                        <option value="8">2013</option>
+                        <option value="9">2014</option>
+                        <option value="10">2015</option>
+                        <option value="11">2016</option>
+                        <option value="12">2017</option>
+                        <option value="13">2018</option>
+                    </#select>
+                        <#input id="filmTime" name="上映时间" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="FilmTInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="FilmTInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/movie/admin/manage/filmT_info.js"></script>
+<script>
+    laydate.render({
+
+    elem:'#filmTime'
+
+    });
+</script>
+@}

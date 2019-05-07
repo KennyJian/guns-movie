@@ -1,0 +1,38 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="FilmTInfoForm">
+
+            <input id="id" value="${item.id}" type="hidden"/>
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="filmName" name="影片名称" value="${item.filmName}" underline="true"/>
+                            <#input id="filmType" name="片源类型: 0-2D,1-3D,2-3DIMAX,3-无" value="${item.filmType}" underline="true"/>
+                            <#input id="imgAddress" name="影片主图地址" value="${item.imgAddress}" underline="true"/>
+                            <#input id="filmScore" name="影片评分" value="${item.filmScore}" underline="true"/>
+                            <#input id="filmPresalenum" name="影片预售数量" value="${item.filmPresalenum}" underline="true"/>
+                            <#input id="filmBoxOffice" name="影片票房：每日更新，以万为单位" value="${item.filmBoxOffice}" />
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="filmSource" name="影片片源，参照片源字典表" value="${item.filmSource}" underline="true"/>
+                            <#input id="filmCats" name="影片分类，参照分类表,多个分类以#分割" value="${item.filmCats}" underline="true"/>
+                            <#input id="filmArea" name="影片区域，参照区域表" value="${item.filmArea}" underline="true"/>
+                            <#input id="filmDate" name="影片上映年代，参照年代表" value="${item.filmDate}" underline="true"/>
+                            <#input id="filmTime" name="影片上映时间" value="${item.filmTime}" underline="true"/>
+                            <#input id="filmStatus" name="影片状态,1-正在热映，2-即将上映，3-经典影片" value="${item.filmStatus}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="FilmTInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="FilmTInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/movie/admin/manage/filmT_info.js"></script>
+@}

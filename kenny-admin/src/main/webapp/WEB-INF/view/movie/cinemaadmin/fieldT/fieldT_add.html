@@ -1,0 +1,67 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="FieldTInfoForm">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#select id="cinemaId" name="影院名字" underline="true">
+                                @for(cinema in cinemaList){
+                                <option value="${cinema.uuid}">${cinema.cinemaName}</option>
+                                @}
+                            </#select>
+                            <#select id="filmId" name="电影名字" underline="true">
+                                @for(film in filmList){
+                                <option value="${film.uuid}">${film.filmName}</option>
+                                @}
+                            </#select>
+                            <#input id="beginTime" name="开始时间" underline="true"/>
+                </div>
+                <div class="col-sm-6">
+                            <#select id="hallId" name="放映厅类型" underline="true">
+                                @for(hall in hallList){
+                                <option value="${hall.uuid}">${hall.showName}</option>
+                                @}
+                            </#select>
+                            <#input id="hallName" name="放映厅名称" underline="true"/>
+                            <#input id="price" name="票价" underline="true"/>
+                            <#input id="beginData" name="开始日期" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="FieldTInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="FieldTInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/movie/cinemaadmin/fieldT/fieldT_info.js"></script>
+<script>
+    laydate.render({
+        elem:'#beginData'
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#cinemaId").change(function () {
+            // 提交信息
+            var ajax = new $ax(Feng.ctxPath + "/cinema/field/getHalls", function(data){
+                console.log(data)
+                $("#hallId option").remove();
+                for (var i=0;i<data.length;i++) {
+
+                    $("#hallId").append("<option value='"+data[i].uuid+"'>" + data[i].showName + "</option>");
+                }
+            },function(data){
+            });
+            ajax.set("cinemaId",$("#cinemaId").val());
+            ajax.start();
+        })
+    });
+</script>
+@}

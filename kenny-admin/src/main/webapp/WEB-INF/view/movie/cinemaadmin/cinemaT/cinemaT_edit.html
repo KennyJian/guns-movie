@@ -1,0 +1,41 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="CinemaTInfoForm">
+
+            <input id="uuid" value="${item.uuid}" type="hidden"/>
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="cinemaName" name="影院名称" value="${item.cinemaName}" underline="true"/>
+                            <#input id="cinemaPhone" name="影院电话" value="${item.cinemaPhone}" underline="true"/>
+                            <#select id="areaId" name="地域编号" value="${item.areaId}">
+                                <option value="1">宝安区</option>
+                                <option value="2">龙岗区</option>
+                                <option value="3">龙华区</option>
+                                <option value="4">南山区</option>
+                                <option value="5">福田区</option>
+                                <option value="6">罗湖区</option>
+                                <option value="7">坪山区</option>
+                                <option value="8">盐田区</option>
+                                <option value="9">南澳大鹏新区</option>
+                            </#select>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="cinemaAddress" name="影院地址" value="${item.cinemaAddress}" underline="true"/>
+                            <#input id="minimumPrice" name="最低票价" value="${item.minimumPrice}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="CinemaTInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="CinemaTInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/movie/cinemaadmin/cinemaT/cinemaT_info.js"></script>
+@}

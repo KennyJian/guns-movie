@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kenny.movie.modular.system.dao.FilmTMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kenny.movie.modular.system.model.FilmT">
+        <id column="UUID" property="uuid" />
+        <result column="film_name" property="filmName" />
+        <result column="film_type" property="filmType" />
+        <result column="img_address" property="imgAddress" />
+        <result column="film_score" property="filmScore" />
+        <result column="film_preSaleNum" property="filmPresalenum" />
+        <result column="film_box_office" property="filmBoxOffice" />
+        <result column="film_source" property="filmSource" />
+        <result column="film_cats" property="filmCats" />
+        <result column="film_area" property="filmArea" />
+        <result column="film_date" property="filmDate" />
+        <result column="film_time" property="filmTime" />
+        <result column="film_status" property="filmStatus" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        UUID, film_name, film_type, img_address, film_score, film_preSaleNum, film_box_office, film_source, film_cats, film_area, film_date, film_time, film_status
+    </sql>
+
+    <select id="findAllFilm" resultType="com.kenny.movie.modular.movie.dto.admin.AdminShowDTO">
+        select
+            a.UUID as uuid,
+            a.film_name as filmName,
+            a.film_length as filmLength,
+            a.film_language as filmLanguage,
+            case b.film_type
+                when 0 then '2D'
+                when 1 then '3D'
+                when 2 then '3D-IMAX'
+                else '无'
+                end	as filmType,
+            (select show_name from kenny_source_dict_t t where t.UUID=b.film_source) as filmSource,
+            (select show_name from kenny_source_dict_t t where t.UUID=b.film_area) as filmArea,
+            (select show_name from kenny_year_dict_t t where t.UUID=b.film_date) as filmDate,
+            b.film_time as filmTime,
+            c.film_en_name as filmEnName
+        from
+        cinema_hall_film_info_t a,
+        kenny_film_t b,
+        kenny_film_info_t c
+        where a.film_id=b.UUID and b.UUID=c.film_id
+        <if test="filmName != null and filmName!='' ">
+            and a.film_name LIKE CONCAT('%',#{filmName},'%')
+        </if>
+        <if test="filmType != null and filmType!=''">
+            and b.film_type=#{filmType}
+        </if>
+        <if test="filmSource != null and filmSource!=''">
+            and b.film_source=#{filmSource}
+        </if>
+        <if test="filmArea != null and filmArea!=''">
+            and b.film_area=#{filmArea}
+        </if>
+        <if test="filmDate != null and filmDate!=''">
+            and b.film_date=#{filmDate}
+        </if>
+    </select>
+
+
+</mapper>

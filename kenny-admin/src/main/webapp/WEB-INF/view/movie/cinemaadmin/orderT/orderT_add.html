@@ -1,0 +1,35 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="OrderTInfoForm">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="cinemaId" name="影院编号" underline="true"/>
+                            <#input id="fieldId" name="放映场次编号" underline="true"/>
+                            <#input id="filmId" name="电影编号" underline="true"/>
+                            <#input id="seatsIds" name="已售座位编号" underline="true"/>
+                            <#input id="seatsName" name="已售座位名称"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="filmPrice" name="影片售价" underline="true"/>
+                            <#input id="orderPrice" name="订单总金额" underline="true"/>
+                            <#input id="orderTime" name="下单时间" underline="true"/>
+                            <#input id="orderUser" name="下单人" underline="true"/>
+                            <#input id="orderStatus" name="0-待支付 1-已支付 2-已关闭" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="OrderTInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="OrderTInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/movie/cinemaadmin/orderT/orderT_info.js"></script>
+@}
