@@ -4,6 +4,7 @@ package com.kenny.movie.modular.movie.service.cinemaadmin.impl;
 import com.kenny.movie.core.util.ToolUtil;
 import com.kenny.movie.modular.movie.dto.cinemaadmin.CinemaAddHallDTO;
 import com.kenny.movie.modular.movie.dto.cinemaadmin.CinemaShowDTO;
+import com.kenny.movie.modular.movie.exception.AddCatException;
 import com.kenny.movie.modular.movie.service.cinemaadmin.ICinemaTService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.kenny.movie.modular.system.dao.AreaDictTMapper;
@@ -77,7 +78,15 @@ public class CinemaTServiceImpl extends ServiceImpl<CinemaTMapper, CinemaT> impl
         if (ToolUtil.isEmpty(cinemaT.getHallIds())){
             cinemaT.setHallIds("#"+cinemaAddHallDTO.getHallId()+"#");
         }else {
-            StringBuilder stringBuilder=new StringBuilder(cinemaT.getHallIds());
+            //判断是否添加过
+            String halls=cinemaT.getHallIds();
+            String[] hall=halls.split("#");
+            for (String str:hall){
+                if (str.equals(cinemaAddHallDTO.getHallId())){
+                    throw new AddCatException();
+                }
+            }
+            StringBuilder stringBuilder=new StringBuilder(halls);
             stringBuilder.append(cinemaAddHallDTO.getHallId()+"#");
             cinemaT.setHallIds(stringBuilder.toString());
         }

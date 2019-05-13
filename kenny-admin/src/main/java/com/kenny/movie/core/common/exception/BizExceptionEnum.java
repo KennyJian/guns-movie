@@ -81,7 +81,9 @@ public enum BizExceptionEnum implements ServiceExceptionEnum {
 
     FIELR_TIME_ERROR(500,"排场时间必须提前一天"),
 
-    DELETE_FIELD_ERROR(500,"该场次已有人购票,不得删除!");
+    DELETE_FIELD_ERROR(500,"该场次已有人购票,不得删除"),
+
+    ADD_CAT_ERROR(500,"该类型已经添加过");
 
     BizExceptionEnum(int code, String message) {
         this.code = code;

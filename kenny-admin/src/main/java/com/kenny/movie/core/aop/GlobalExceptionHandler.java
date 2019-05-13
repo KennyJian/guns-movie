@@ -8,10 +8,7 @@ import com.kenny.movie.core.support.HttpKit;
 import com.kenny.movie.core.base.tips.ErrorTip;
 import com.kenny.movie.core.log.LogManager;
 import com.kenny.movie.core.shiro.ShiroKit;
-import com.kenny.movie.modular.movie.exception.AddFieldException;
-import com.kenny.movie.modular.movie.exception.DeleteFieldException;
-import com.kenny.movie.modular.movie.exception.FieldTimeException;
-import com.kenny.movie.modular.movie.exception.SetPriceException;
+import com.kenny.movie.modular.movie.exception.*;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -145,6 +142,15 @@ public class GlobalExceptionHandler {
         HttpKit.getRequest().setAttribute("tip", "排场时间必须提前一天");
         log.error("排场时间必须提前一天!", e);
         return new ErrorTip(BizExceptionEnum.FIELR_TIME_ERROR.getCode(), BizExceptionEnum.FIELR_TIME_ERROR.getMessage());
+    }
+
+    @ExceptionHandler(AddCatException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorTip addCatError(AddCatException e){
+        HttpKit.getRequest().setAttribute("tip", "该类型已经添加过");
+        log.error("该类型已经添加过!", e);
+        return new ErrorTip(BizExceptionEnum.ADD_CAT_ERROR.getCode(), BizExceptionEnum.ADD_CAT_ERROR.getMessage());
     }
     /**
      * 拦截未知的运行时异常

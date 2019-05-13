@@ -137,7 +137,7 @@ public class CinemaTController extends BaseController {
     }
 
     /**
-     * 修改影院后台
+     * 修改影厅类型
      */
     @Permission
     @RequestMapping(value = "/addHall")

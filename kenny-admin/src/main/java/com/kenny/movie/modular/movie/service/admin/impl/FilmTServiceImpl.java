@@ -4,6 +4,7 @@ package com.kenny.movie.modular.movie.service.admin.impl;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.kenny.movie.core.util.ToolUtil;
 import com.kenny.movie.modular.movie.dto.admin.*;
+import com.kenny.movie.modular.movie.exception.AddCatException;
 import com.kenny.movie.modular.movie.service.admin.IFilmTService;
 import com.kenny.movie.modular.system.dao.*;
 import com.kenny.movie.modular.system.model.*;
@@ -128,7 +129,12 @@ public class FilmTServiceImpl extends ServiceImpl<FilmTMapper, FilmT> implements
         if (ToolUtil.isEmpty(hallFilmInfoT.getFilmCats())){
             hallFilmInfoT.setFilmCats(catName);
         }else {
-            StringBuilder stringBuilder=new StringBuilder(hallFilmInfoT.getFilmCats());
+            //判断类型是否重复
+            String existFilmCats=hallFilmInfoT.getFilmCats();
+            if (existFilmCats.indexOf(catName)!=-1){
+                throw new AddCatException();
+            }
+            StringBuilder stringBuilder=new StringBuilder(existFilmCats);
             stringBuilder.append(","+catName);
             hallFilmInfoT.setFilmCats(stringBuilder.toString());
         }
